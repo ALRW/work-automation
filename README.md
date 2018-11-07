@@ -4,9 +4,9 @@ A repo to hold various pieces of ad-hoc workplace automation
 
 ## Contents
 
- - [Standup Slack-bot](#standup-slack-bot)
+ - [Slack Standup Bot](#slack-standup-bot)
 
-## Standup Slack Bot
+## Slack Standup Bot
 
 This bot picks a random member of the team to run standup Tuesday to Friday each week and posts the selection to a designated team channel. It is setup to run in [google app scripts](https://script.google.com) and uses a google sheet as a pseudo database.
 
