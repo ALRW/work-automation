@@ -1,10 +1,9 @@
 // Get an environment variable.
-function getProperty(propertyName) {
-  return PropertiesService.getScriptProperties().getProperty(propertyName)
-}
+const getProperty = (propertyName: string) =>
+  PropertiesService.getScriptProperties().getProperty(propertyName)
 
 // Gets the team calendar based on the calendar name.
-function getCalendar() {
+const getCalendar = () => {
   const calName = getProperty("CALENDAR_NAME")
   return CalendarApp.getCalendarsByName(calName)[0]
 }
@@ -26,46 +25,37 @@ function getPeopleOOOForNextDay() {
 }
 
 // Get the team sheet from the requested spreadsheet.
-function getTeamSheet() {
-  return SpreadsheetApp.openById(getProperty("SPREADSHEET_ID")).getSheetByName("team")
-}
+const getTeamSheet = () =>
+  SpreadsheetApp.openById(getProperty("SPREADSHEET_ID")).getSheetByName("team")
 
 // Select an item from a list at random.
-function selectAtRandom(list) {
-  return list[Math.floor(Math.random() * list.length)]
-}
+const selectAtRandom = (list: Array<object>) =>
+  list[Math.floor(Math.random() * list.length)]
 
 // Get the team from the spreadsheet; 
 // get the people who will be OOO from calendar; 
 // select a person at random from those who are in.
-function selectPerson() {
-  const allPeople = getTeamSheet().getDataRange().getValues().map(function(p){
-    return p[0]
-  })
+const selectPerson = () => {
+  const allPeople: Array<string> = getTeamSheet().getDataRange().getValues().map(p => p[0])
   const peopleOOO = getPeopleOOOForNextDay()
-  const people = allPeople.filter(function(p) {
-    return peopleOOO.indexOf(p) === -1
-  })  
+  const people = allPeople.filter(p => peopleOOO.indexOf(p) === -1)
   return selectAtRandom(people)
 }
 
 // Send a message to a particular slack channel.
-function sendMessage() {
-  const payload = {
+const sendMessage = () => {
+  const payload: object = {
     "channel": getProperty("SLACK_CHANNEL_NAME"),
     "username": "Bear Bot",
-    "icon_emoji": ":bear:",
+    "icon_emoji": ":trollparrot:",
     "link_names": 1,
     "text": "The master of ceremonies for the next standup is: @" + selectPerson()
   }
-  
-  const url = getProperty("SLACK_INCOMING_URL")
-  
-  const options = {
+  const url: string = getProperty("SLACK_INCOMING_URL")
+  const options: object = {
     "method": "post",
     "payload": JSON.stringify(payload)
   }
-  
   UrlFetchApp.fetch(url, options)
 }
 
