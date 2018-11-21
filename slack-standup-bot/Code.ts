@@ -1,8 +1,8 @@
 const getProperty = (propertyName: string): string =>
   PropertiesService.getScriptProperties().getProperty(propertyName)
 
-const getCalendar = () =>
-  CalendarApp.getCalendarsByName(getProperty("CALENDAR_NAME"))[0]
+const selectAtRandom = (list: string[]): string =>
+  list[Math.floor(Math.random() * list.length)]
 
 const getWholeTeam = (): string[] =>
   SpreadsheetApp
@@ -15,18 +15,17 @@ const getWholeTeam = (): string[] =>
 const getAbsentTeamMembers = (): string[] => {
   const today: Date = new Date()
   const tomorrow: Date = new Date(today.setDate(today.getDate() +1))
-  const events = getCalendar().getEventsForDay(tomorrow)
+  const events = CalendarApp
+    .getCalendarsByName(getProperty("CALENDAR_NAME"))[0]
+    .getEventsForDay(tomorrow)
   const eventsOfInterest = events.filter(event => {
-    const title = event.getTitle()
+    const title: string = event.getTitle()
     const titlesOfInterest: string[] = ["OOO", "WFH", "PTO", "AL"]
     return titlesOfInterest.some(t => title.indexOf(t) !== -1)
   })
   const peopleOfInterest: string[] = eventsOfInterest.map(e => e.getCreators()[0])
   return peopleOfInterest.map(p => p.substr(0, p.indexOf('@')))
 }
-
-const selectAtRandom = (list: string[]): string =>
-  list[Math.floor(Math.random() * list.length)]
 
 const selectPerson = (): string => {
   const allPeople: string[] = getWholeTeam()
@@ -39,7 +38,7 @@ const sendMessage = (): void => {
   const payload: object = {
     "channel": getProperty("SLACK_CHANNEL_NAME"),
     "username": "Bear Bot",
-    "icon_emoji": ":trollparrot:",
+    "icon_emoji": ":bear:",
     "link_names": 1,
     "text": "The master of ceremonies for the next standup is: @" + selectPerson()
   }
