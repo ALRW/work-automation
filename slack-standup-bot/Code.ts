@@ -34,13 +34,26 @@ const selectPerson = (): string => {
   return selectAtRandom(people)
 }
 
-const sendMessage = (): void => {
+const tomorrow = (): string => {
+  const today: Date = new Date()
+  const tomorrow: number = new Date(today.setDate(today.getDate() + 1)).getDay()
+  const days = ["Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"]
+  return days[tomorrow]
+}
+
+function sendMessage (): void {
   const payload: object = {
     "channel": getProperty("SLACK_CHANNEL_NAME"),
     "username": "Bear Bot",
     "icon_emoji": ":bear:",
     "link_names": 1,
-    "text": "The master of ceremonies for the next standup is: @" + selectPerson()
+    "text": "The master of ceremonies for " + tomorrow + "'s standup is: @" + selectPerson()
   }
   const url: string = getProperty("SLACK_INCOMING_URL")
   const options: object = {
@@ -51,8 +64,11 @@ const sendMessage = (): void => {
 }
 
 const createTriggers = (): void => {
-  const days = [ScriptApp.WeekDay.MONDAY, ScriptApp.WeekDay.TUESDAY,
-    ScriptApp.WeekDay.WEDNESDAY, ScriptApp.WeekDay.THURSDAY]
+  const days = [ScriptApp.WeekDay.MONDAY,
+    ScriptApp.WeekDay.TUESDAY,
+    ScriptApp.WeekDay.WEDNESDAY,
+    ScriptApp.WeekDay.THURSDAY,
+    ScriptApp.WeekDay.FRIDAY]
   days.forEach(day => ScriptApp.newTrigger("sendMessage")
     .timeBased().onWeekDay(day)
     .atHour(10).create())
