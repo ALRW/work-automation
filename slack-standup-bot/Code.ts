@@ -53,7 +53,7 @@ function sendMessage (): void {
     "username": "Bear Bot",
     "icon_emoji": ":bear:",
     "link_names": 1,
-    "text": "The master of ceremonies for " + tomorrow + "'s standup is: @" + selectPerson()
+    "text": "The master of ceremonies for " + tomorrow() + "'s standup is: @" + selectPerson()
   }
   const url: string = getProperty("SLACK_INCOMING_URL")
   const options: object = {
