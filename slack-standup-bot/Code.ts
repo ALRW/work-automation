@@ -37,6 +37,7 @@ const selectPerson = (): string => {
 const tomorrow = (): string => {
   const today: Date = new Date()
   const tomorrow: number = new Date(today.setDate(today.getDate() + 1)).getDay()
+  const workingDay: number = tomorrow === 6 ? 1 : tomorrow
   const days = ["Sunday",
     "Monday",
     "Tuesday",
@@ -44,7 +45,7 @@ const tomorrow = (): string => {
     "Thursday",
     "Friday",
     "Saturday"]
-  return days[tomorrow]
+  return days[workingDay]
 }
 
 function sendMessage (): void {
