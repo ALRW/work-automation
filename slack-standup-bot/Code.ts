@@ -48,20 +48,30 @@ const tomorrow = (): string => {
   return days[workingDay]
 }
 
-function sendMessage (): void {
+
+const sendMessage = (message): void => {
   const payload: object = {
     "channel": getProperty("SLACK_CHANNEL_NAME"),
     "username": "Bear Bot",
     "icon_emoji": ":bear:",
     "link_names": 1,
-    "text": "The master of ceremonies for " + tomorrow() + "'s standup is: @" + selectPerson()
-  }
+    "text": message   }
   const url: string = getProperty("SLACK_INCOMING_URL")
   const options: object = {
     "method": "post",
     "payload": JSON.stringify(payload)
   }
   UrlFetchApp.fetch(url, options)
+}
+
+function standup (): void {
+  const message: string = `The master of ceremonies for ${tomorrow()}'s standup is: @${selectPerson()}`
+  sendMessage(message)
+}
+
+function update (): void {
+  const message: string = `@${selectPerson()}, congratulations! You have been _randomly_ selected to give a quick update in #cc-engineering onthe Barter Bears activities today`
+  sendMessage(message)
 }
 
 const createTriggers = (): void => {
