@@ -74,7 +74,7 @@ function update (): void {
   sendMessage(message)
 }
 
-const createTriggers = (): void => {
+function createTriggers (): void {
   const days = [ScriptApp.WeekDay.MONDAY,
     ScriptApp.WeekDay.TUESDAY,
     ScriptApp.WeekDay.WEDNESDAY,
