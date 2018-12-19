@@ -65,12 +65,12 @@ const sendMessage = (message): void => {
 }
 
 function standup (): void {
-  const message: string = `The master of ceremonies for ${tomorrow()}'s standup is: @${selectPerson()}`
+  const message: string = `The master of ceremonies for ${tomorrow()}'s standup is: @${selectPerson()}.`
   sendMessage(message)
 }
 
 function update (): void {
-  const message: string = `@${selectPerson()}, congratulations! You have been _randomly_ selected to give a quick update in #cc-engineering onthe Barter Bears activities today`
+  const message: string = `@${selectPerson()}, congratulations! You have been _randomly_ selected to give a quick update in #cc-engineering on the Barter Bears' activities today.`
   sendMessage(message)
 }
 
