@@ -65,7 +65,7 @@ const sendMessage = (message): void => {
 }
 
 function standup (): void {
-  const message: string = `The master of ceremonies for ${tomorrow()}'s standup is: @${selectPerson()}.`
+  const message: string = `The master of ceremonies for ${tomorrow()}'s standup is: @${selectPerson()}`
   sendMessage(message)
 }
 
