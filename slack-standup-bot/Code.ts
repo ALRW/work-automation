@@ -4,7 +4,19 @@ const getProperty = (propertyName: string): string =>
 const selectAtRandom = (list: string[]): string =>
   list[Math.floor(Math.random() * list.length)]
 
-const getWholeTeam = (): string[] =>
+const nextWorkingDay = (): Date => {
+  const today: Date = new Date()
+  const offset: number = today.getDay() === 5 ? 3 : 1
+  return new Date(today.setDate(today.getDate() + offset))
+}
+
+const calendarEvents = (titlesOfInterest: string[]) =>
+  CalendarApp
+    .getCalendarsByName(getProperty("CALENDAR_NAME"))[0]
+    .getEventsForDay(nextWorkingDay())
+    .filter(event => titlesOfInterest.some(t => event.getTitle().indexOf(t) !== -1))
+
+const allPeople = (): string[] =>
   SpreadsheetApp
     .openById(getProperty("SPREADSHEET_ID"))
     .getSheetByName("team")
@@ -12,42 +24,26 @@ const getWholeTeam = (): string[] =>
     .getValues()
     .map(p => p[0].toString())
 
-const getAbsentTeamMembers = (): string[] => {
-  const today: Date = new Date()
-  const tomorrow: Date = new Date(today.setDate(today.getDate() +1))
-  const events = CalendarApp
-    .getCalendarsByName(getProperty("CALENDAR_NAME"))[0]
-    .getEventsForDay(tomorrow)
-  const eventsOfInterest = events.filter(event => {
-    const title: string = event.getTitle()
-    const titlesOfInterest: string[] = ["OOO", "WFH", "PTO", "AL"]
-    return titlesOfInterest.some(t => title.indexOf(t) !== -1)
-  })
+const absentPeople = (): string[] => {
+  const eventsOfInterest = calendarEvents(["OOO", "WFH", "PTO", "AL"])
   const peopleOfInterest: string[] = eventsOfInterest.map(e => e.getCreators()[0])
   return peopleOfInterest.map(p => p.substr(0, p.indexOf('@')))
 }
 
-const selectPerson = (): string => {
-  const allPeople: string[] = getWholeTeam()
-  const peopleOOO: string[] = getAbsentTeamMembers()
-  const people: string[] = allPeople.filter(p => peopleOOO.indexOf(p) === -1)
-  return selectAtRandom(people)
-}
+const peopleInWork = (): string[] => 
+  allPeople().filter(p => absentPeople().indexOf(p) === -1)
 
-const tomorrow = (): string => {
-  const today: Date = new Date()
-  const tomorrow: number = new Date(today.setDate(today.getDate() + 1)).getDay()
-  const workingDay: number = tomorrow === 6 ? 1 : tomorrow
-  const days = ["Sunday",
+const isStandup = (): boolean =>
+  calendarEvents(["Stand Up"]).length > 0
+
+const tomorrowAsString = (): string =>
+  ["Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"]
-  return days[workingDay]
-}
-
+    "Saturday"][nextWorkingDay().getDay()]
 
 const sendMessage = (message): void => {
   const payload: object = {
@@ -65,12 +61,14 @@ const sendMessage = (message): void => {
 }
 
 function standup (): void {
-  const message: string = `The master of ceremonies for ${tomorrow()}'s standup is: @${selectPerson()}`
-  sendMessage(message)
+  const person: string = selectAtRandom(peopleInWork())
+  const message: string = `The master of ceremonies for ${tomorrowAsString()}'s standup is: @${person}`
+  isStandup() && sendMessage(message)
 }
 
 function update (): void {
-  const message: string = `@${selectPerson()}, congratulations! You have been _randomly_ selected to give a quick update in #cc-engineering on the Barter Bears' activities today.`
+  const person: string = selectAtRandom(peopleInWork())
+  const message: string = `@${person}, congratulations! You have been _randomly_ selected to give a quick update in #cc-engineering on the Barter Bears' activities today.`
   sendMessage(message)
 }
 
