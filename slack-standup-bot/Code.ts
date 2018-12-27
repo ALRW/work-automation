@@ -69,7 +69,7 @@ function standup (): void {
 function update (): void {
   const person: string = selectAtRandom(peopleInWork())
   const message: string = `@${person}, congratulations! You have been _randomly_ selected to give a quick update in #cc-engineering on the Barter Bears' activities today.`
-  sendMessage(message)
+  isStandup() && sendMessage(message)
 }
 
 function createTriggers (): void {
