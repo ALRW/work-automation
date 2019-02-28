@@ -3,19 +3,34 @@
   <head>
     <meta charset="UTF-8">
     <title>Example Feedback Output</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/vega@5.0.0-rc2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@3.0.0-rc13"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@3.29.1"></script>
+    <base target="_top">
   </head>
   <body>
-    <div id="vis"></div>
+    <div id="app">
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">Feedback Tool</a>
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Enter a name" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </nav>
+      <div class="container">
+        <div id="vis"></div>
+      </div>
+    </div>
     <script type="text/javascript">
       var yourVlSpec = {
         $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
         description: '360 feedback output',
         title: '360 feedback results',
-        width: 500,
-        height: 300,
+        width: 600,
+        height: 350,
         data: {
           values: [
             {value: 'Execution', result: 'are smashing it'},
@@ -40,7 +55,7 @@
         ],
         layer: [
           {
-            mark: 'point',
+            mark: {type: 'point', size: 70, filled: true},
             encoding: {
               x: {field: 'value', type: 'nominal'},
               y: {field: 'your result', type: 'quantitative'}
@@ -54,7 +69,7 @@
               color: {value: 'red'}
             }
           }
-      ]};
+        ]};
       vegaEmbed('#vis', yourVlSpec);
     </script>
   </body>
