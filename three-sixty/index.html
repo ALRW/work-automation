@@ -15,62 +15,42 @@
     <div id="app">
       <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand">Feedback Tool</a>
-        <form class="form-inline">
-          <input class="form-control mr-sm-2" type="search" placeholder="Enter a name" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+          <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Enter a name" aria-label="Search">
+          <button onclick="google.script.run.withSuccessHandler(onSuccess).sendData()" id="search" class="btn btn-outline-success my-2 my-sm-0">Search</button>
       </nav>
       <div class="container">
         <div id="vis"></div>
       </div>
     </div>
     <script type="text/javascript">
-      var yourVlSpec = {
-        $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
-        description: '360 feedback output',
-        title: '360 feedback results',
-        width: 600,
-        height: 350,
-        data: {
-          values: [
-            {value: 'Execution', result: 'are smashing it'},
-            {value: 'Consistency', result:  'are smashing it'},
-            {value: 'Quality', result: 'are spot on'},
-            {value: 'Design & Architecture', result: 'have room to do more'},
-            {value: 'Problem Solving', result:  'are spot on'},
-            {value: 'Curiosity', result:  'are spot on'},
-            {value: 'Accountability', result:   'are smashing it'},
-            {value: 'Communication', result:   'are smashing it'},
-            {value: 'Delivery', result:  'are spot on'},
-            {value: 'Grit', result:  'are spot on'},
-            {value: 'People Orientation', result:  'are spot on'},
-            {value: 'Emotional Intelligence', result:   'are smashing it'},
-            {value: 'Craft', result:  'have room to do more'},
-            {value: 'Purpose', result:  'are spot on'}
-          ]
-        },
-        transform: [
-          {calculate: 'if(datum.result === "are smashing it", 3, if(datum.result === "are spot on", 2, 1))',
-            as: 'your result'}
-        ],
-        layer: [
-          {
-            mark: {type: 'point', size: 70, filled: true},
-            encoding: {
-              x: {field: 'value', type: 'nominal'},
-              y: {field: 'your result', type: 'quantitative'}
+
+      function onSuccess(data) {
+        var yourVlSpec = {
+          $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
+          description: '360 feedback output',
+          title: '360 feedback results',
+          width: 600,
+          height: 350,
+          data: data,
+          layer: [
+            {
+              mark: {type: 'point', size: 70, filled: true},
+              encoding: {
+                x: {field: 'value', type: 'nominal'},
+                y: {field: 'result', type: 'quantitative'}
+              },
             },
-          },
-          {
-            mark: 'rule',
-            encoding: {
-              y: {field: 'your result', type: 'quantitative', aggregate: 'mean'},
-              size: {value: 2},
-              color: {value: 'red'}
+            {
+              mark: 'rule',
+              encoding: {
+                y: {field: 'result', type: 'quantitative', aggregate: 'mean'},
+                size: {value: 2},
+                color: {value: 'red'}
+              }
             }
-          }
-        ]};
-      vegaEmbed('#vis', yourVlSpec);
+          ]};
+        vegaEmbed('#vis', yourVlSpec);
+      }
     </script>
   </body>
 </html>
