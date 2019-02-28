@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Example Feedback Output</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.0.0-rc2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@3.0.0-rc13"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@3.29.1"></script>
+  </head>
+  <body>
+    <div id="vis"></div>
+    <script type="text/javascript">
+      var yourVlSpec = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
+        description: '360 feedback output',
+        title: '360 feedback results',
+        width: 500,
+        height: 300,
+        data: {
+          values: [
+            {value: 'Execution', result: 'are smashing it'},
+            {value: 'Consistency', result:  'are smashing it'},
+            {value: 'Quality', result: 'are spot on'},
+            {value: 'Design & Architecture', result: 'have room to do more'},
+            {value: 'Problem Solving', result:  'are spot on'},
+            {value: 'Curiosity', result:  'are spot on'},
+            {value: 'Accountability', result:   'are smashing it'},
+            {value: 'Communication', result:   'are smashing it'},
+            {value: 'Delivery', result:  'are spot on'},
+            {value: 'Grit', result:  'are spot on'},
+            {value: 'People Orientation', result:  'are spot on'},
+            {value: 'Emotional Intelligence', result:   'are smashing it'},
+            {value: 'Craft', result:  'have room to do more'},
+            {value: 'Purpose', result:  'are spot on'}
+          ]
+        },
+        transform: [
+          {calculate: 'if(datum.result === "are smashing it", 3, if(datum.result === "are spot on", 2, 1))',
+            as: 'your result'}
+        ],
+        layer: [
+          {
+            mark: 'point',
+            encoding: {
+              x: {field: 'value', type: 'nominal'},
+              y: {field: 'your result', type: 'quantitative'}
+            },
+          },
+          {
+            mark: 'rule',
+            encoding: {
+              y: {field: 'your result', type: 'quantitative', aggregate: 'mean'},
+              size: {value: 2},
+              color: {value: 'red'}
+            }
+          }
+      ]};
+      vegaEmbed('#vis', yourVlSpec);
+    </script>
+  </body>
+</html>
