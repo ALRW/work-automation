@@ -15,8 +15,10 @@
     <div id="app">
       <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand">Feedback Tool</a>
+        <form class="form-inline">
           <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Enter a name" aria-label="Search">
           <button onclick="google.script.run.withSuccessHandler(onSuccess).sendData()" id="search" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+        </form>
       </nav>
       <div class="container">
         <div id="vis"></div>
