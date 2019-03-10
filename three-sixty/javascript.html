@@ -1,0 +1,40 @@
+<script src="https://cdn.jsdelivr.net/npm/vega@5.0.0-rc2"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@3.0.0-rc13"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@3.29.1"></script>
+<script type="text/javascript">
+
+  function onSuccess(data) {
+    var yourVlSpec = {
+      $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
+      description: '360 feedback output',
+      title: '360 feedback results',
+      width: 600,
+      height: 350,
+      data: data,
+      layer: [
+        {
+          mark: {type: 'point', size: 70, filled: true},
+          encoding: {
+            x: {field: 'value', type: 'nominal'},
+            y: {field: 'result', type: 'quantitative'}
+          },
+        },
+        {
+          mark: 'rule',
+          encoding: {
+            y: {field: 'result', type: 'quantitative', aggregate: 'mean'},
+            size: {value: 2},
+            color: {value: 'red'}
+          }
+        }
+      ]};
+    vegaEmbed('#vis', yourVlSpec);
+  }
+
+  (function () {
+    var spinner = document.getElementById('loading')
+    var app = document.getElementById('app')
+    spinner.classList.add('hidden')
+    app.classList.remove('hidden')
+  })()
+</script>
