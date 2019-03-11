@@ -13,6 +13,24 @@
   }
   window.addEventListener('load', preventFormSubmit)
 
+  function addSustain(data) {
+    var htmlString = ' \
+    <ul class="list-group"> \
+      <li class="list-group-item list-group-item-secondary">Sustain</li> \
+      <li class="list-group-item">' + data.sustain + '</li> \
+    </ul>'
+    document.getElementById('sustain').innerHTML = htmlString
+  }
+
+  function addImprove(data) {
+    var htmlString = ' \
+    <ul class="list-group"> \
+      <li class="list-group-item list-group-item-secondary">Improve</li> \
+      <li class="list-group-item">' + data.improve + '</li> \
+    </ul>'
+    document.getElementById('improve').innerHTML = htmlString
+  }
+
   function onSuccess(data) {
     var yourVlSpec = {
       $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
@@ -38,7 +56,9 @@
           }
         }
       ]};
-    vegaEmbed('#vis', yourVlSpec);
+    addSustain(data)
+    vegaEmbed('#vis', yourVlSpec)
+    addImprove(data)
   }
 
   (function () {
