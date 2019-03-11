@@ -13,11 +13,11 @@
       </div>
     </div>
     <div id="app" class="hidden">
-      <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand">360 Feedback Analysis</a>
+      <nav class="navbar navbar-dark fc">
+        <a class="navbar-brand" href="#">360 Feedback Analysis</a>
         <form class="form-inline">
           <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Enter a name" aria-label="Search">
-          <button onclick="google.script.run.withSuccessHandler(onSuccess).feedbackData(document.getElementById('searchInput').value)" id="search" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+          <button onclick="google.script.run.withSuccessHandler(onSuccess).feedbackData(document.getElementById('searchInput').value)" id="search" class="btn btn-outline-light my-2 my-sm-0">Search</button>
         </form>
       </nav>
       <div class="container">
