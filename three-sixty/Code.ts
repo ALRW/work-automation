@@ -54,10 +54,10 @@ const createDataArray = data =>
   data.slice(0, -2).map(([key, value]) =>
     ({value: key, result: value}))
 
-function sendData() {
+function feedbackData(name) {
   const data = getFeedbackData()
   const tuples = dataToTuples(data)
-  const person = getPersonData("Andrew", tuples)
+  const person = getPersonData(name, tuples)
   const clean = cleanPersonData(person)
   const numeric = dataToNumeric(clean)
   const dataArray = createDataArray(numeric[0])
@@ -72,4 +72,9 @@ function doGet() {
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename)
       .getContent();
+}
+
+// For development
+function logger() {
+  Logger.log("x")
 }
