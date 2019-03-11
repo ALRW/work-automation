@@ -35,7 +35,11 @@ const cleanPersonData = (data: Object[][][]): string[][][] =>
   data.map(datum =>
     datum.map(tuple =>
       tuple.map(item =>
-    item.toString().replace(/([\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, ''))))
+        item.toString().replace(/([\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, ''))))
+
+//currently an mvp hack
+const sustainImprove = (data: string[][][]): string[] =>
+  data[0].slice(-2).map(datum => datum[1])
 
 //This currently drops the text fields and the initial name
 const dataToNumeric = (data: string[][][]): string[][][] =>
@@ -59,22 +63,33 @@ function feedbackData(name) {
   const tuples = dataToTuples(data)
   const person = getPersonData(name, tuples)
   const clean = cleanPersonData(person)
+  const susImp = sustainImprove(clean)
   const numeric = dataToNumeric(clean)
   const dataArray = createDataArray(numeric[0])
-  return ({values: dataArray})
+  return ({body: {values: dataArray},
+    name: name,
+    sustain: susImp[0],
+    improve: susImp[1]})
 }
 
 function doGet() {
   return HtmlService.createTemplateFromFile('index')
-      .evaluate();
+    .evaluate();
 }
 
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename)
-      .getContent();
+    .getContent();
 }
 
 // For development
 function logger() {
-  Logger.log("x")
+  const data = getFeedbackData()
+  const tuples = dataToTuples(data)
+  const person = getPersonData("Andrew", tuples)
+  const clean = cleanPersonData(person)
+  const susImp = sustainImprove(clean)
+  const numeric = dataToNumeric(clean)
+  const dataArray = createDataArray(numeric[0])
+  Logger.log(susImp)
 }
