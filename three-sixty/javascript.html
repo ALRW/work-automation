@@ -36,23 +36,26 @@
       $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
       description: '360 feedback output',
       title: '360 feedback results',
-      width: 600,
-      height: 350,
+      width: 280,
+      height: 500,
       data: data.body,
       layer: [
         {
           mark: {type: 'point', size: 70, filled: true},
           encoding: {
-            x: {field: 'value', type: 'nominal'},
-            y: {field: 'result', type: 'quantitative'}
+            x: {field: 'result', type: 'quantitative'},
+            y: {field: 'value', type: 'nominal'},
+            color: {
+              value: '#854a86',
+            }
           },
         },
         {
           mark: 'rule',
           encoding: {
-            y: {field: 'result', type: 'quantitative', aggregate: 'mean'},
+            x: {field: 'result', type: 'quantitative', aggregate: 'mean'},
             size: {value: 2},
-            color: {value: 'red'}
+            color: {value: '#377386'}
           }
         }
       ]};
