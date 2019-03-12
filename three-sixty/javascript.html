@@ -13,22 +13,31 @@
   }
   window.addEventListener('load', preventFormSubmit)
 
+  function createListItems(title, data) {
+    var title = '<li class="list-group-item list-group-item-secondary fc">' + title + '</li>'
+    return data.reduce(function (res, item) {
+      return res + '<li class="list-group-item">' + item + '</li>'
+    }, title)
+  }
+
   function addSustain(data) {
-    var htmlString = ' \
-    <ul class="list-group"> \
-      <li class="list-group-item list-group-item-secondary fc">Sustain</li> \
-      <li class="list-group-item">' + data.sustain + '</li> \
-    </ul>'
-    document.getElementById('sustain').innerHTML = htmlString
+    var team = '<ul class="list-group">'
+      + createListItems('The team wants you to sustain', data.slice(1))
+      + '</ul>'
+    var you = '<ul class="list-group">'
+      + createListItems('You want to sustain', data.slice(0, 1))
+      + '</ul>'
+    document.getElementById('sustain').innerHTML = you + team
   }
 
   function addImprove(data) {
-    var htmlString = ' \
-    <ul class="list-group"> \
-      <li class="list-group-item list-group-item-secondary fc">Improve</li> \
-      <li class="list-group-item">' + data.improve + '</li> \
-    </ul>'
-    document.getElementById('improve').innerHTML = htmlString
+    var team = '<ul class="list-group">'
+      + createListItems('The team wants you to improve', data.slice(1))
+      + '</ul>'
+    var you = '<ul class="list-group">'
+      + createListItems('You want to improve', data.slice(0, 1))
+      + '</ul>'
+    document.getElementById('improve').innerHTML = you + team
   }
 
   function onSuccess(data) {
@@ -36,32 +45,53 @@
       $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
       description: '360 feedback output',
       title: '360 feedback results',
-      width: 280,
-      height: 500,
-      data: data.body,
+      width: 500,
+      height: 280,
       layer: [
         {
+          data: data.individual,
           mark: {type: 'point', size: 70, filled: true},
           encoding: {
-            x: {field: 'result', type: 'quantitative'},
-            y: {field: 'value', type: 'nominal'},
+            y: {field: 'result', type: 'quantitative'},
+            x: {field: 'value', type: 'nominal', 'axis': {'labelAngle': -40}},
             color: {
               value: '#854a86',
             }
           },
         },
         {
+          data: data.team,
+          mark: {type: 'point', size: 70, filled: true},
+          encoding: {
+            y: {field: 'result', type: 'quantitative'},
+            x: {field: 'value', type: 'nominal', 'axis': {'labelAngle': -40}},
+            color: {
+              value: 'red',
+            }
+          },
+        },
+        {
+          data: data.individual,
           mark: 'rule',
           encoding: {
-            x: {field: 'result', type: 'quantitative', aggregate: 'mean'},
+            y: {field: 'result', type: 'quantitative', aggregate: 'mean'},
             size: {value: 2},
             color: {value: '#377386'}
           }
+        },
+        {
+          data: data.team,
+          mark: 'rule',
+          encoding: {
+            y: {field: 'result', type: 'quantitative', aggregate: 'mean'},
+            size: {value: 2},
+            color: {value: 'orange'}
+          }
         }
       ]};
-    addSustain(data)
+    addSustain(data.sustain)
     vegaEmbed('#vis', yourVlSpec)
-    addImprove(data)
+    addImprove(data.improve)
   }
 
   (function () {
