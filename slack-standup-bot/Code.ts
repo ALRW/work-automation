@@ -34,7 +34,7 @@ const peopleInWork = (): string[] =>
   allPeople().filter(p => absentPeople().indexOf(p) === -1)
 
 const isStandup = (): boolean =>
-  calendarEvents(["Stand Up"]).length > 0
+  calendarEvents(["Electrodogs - BarterBears Standup"]).length > 0
 
 const tomorrowAsString = (): string =>
   ["Sunday",
