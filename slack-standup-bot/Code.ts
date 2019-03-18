@@ -60,16 +60,16 @@ const sendMessage = (message): void => {
   UrlFetchApp.fetch(url, options)
 }
 
-function standup (): void {
-  const person: string = selectAtRandom(peopleInWork())
-  const message: string = `The master of ceremonies for ${tomorrowAsString()}'s standup is: @${person}`
-  isStandup() && sendMessage(message)
-}
+// function standup (): void {
+//   const person: string = selectAtRandom(peopleInWork())
+//   const message: string = `The master of ceremonies for ${tomorrowAsString()}'s standup is: @${person}`
+//   isStandup() && sendMessage(message)
+// }
 
 function update (): void {
   const person: string = selectAtRandom(peopleInWork())
   const message: string = `@${person}, congratulations! You have been _randomly_ selected to give a quick update in #cc-engineering on the Barter Bears' activities today.`
-  isStandup() && sendMessage(message)
+  sendMessage(message)
 }
 
 function createTriggers (): void {
