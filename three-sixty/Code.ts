@@ -105,7 +105,7 @@ function getFeedbackData (name: string) {
   const master = sheet(getProperty('MASTER_SPREADSHEET_ID'))
   // TODO enable multiple rounds of feedback and remove final [0]
   const personMetadata = sheetData(master).filter(datum => datum[0] === name)[0]
-  if(personMetadata.length === 0) {
+  if(!personMetadata) {
     return errorPayload(`No entry for ${name}`)
   }
   const personalResults = sheetData(sheet(personMetadata[1]))
