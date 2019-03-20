@@ -43,6 +43,12 @@
     document.getElementById('improve').innerHTML = you + team
   }
 
+  function removeChildren(node) {
+    while(node.firstChild) {
+      node.removeChild(node.firstChild)
+    }
+  }
+
   function onSuccess(data) {
     if(data.error) {
       var errorString = '<div class="alert alert-danger" role="alert">\
@@ -53,6 +59,8 @@
       <hr>\
       <p>' + data.error + '</p>\
       </div>'
+      removeChildren(document.getElementById('improve'))
+      removeChildren(document.getElementById('sustain'))
       document.getElementById('main').innerHTML = errorString
     } else {
       var yourVlSpec = {
