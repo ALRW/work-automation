@@ -41,57 +41,66 @@
   }
 
   function onSuccess(data) {
-    var yourVlSpec = {
-      $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
-      description: '360 feedback output',
-      title: '360 feedback results',
-      width: 500,
-      height: 280,
-      layer: [
-        {
-          data: data.individual,
-          mark: {type: 'point', size: 70, filled: true},
-          encoding: {
-            y: {field: 'result', type: 'quantitative'},
-            x: {field: 'value', type: 'nominal', 'axis': {'labelAngle': -40}},
-            color: {
-              value: '#854a86',
+    if(data.error) {
+      var errorString = '<div class="alert alert-danger" role="alert">\
+      <h4 class="alert-heading">Search Error</h4><p>' + data.error + '</p>\
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+      <span aria-hidden="true">&times;</span>\
+      </button>'
+      document.getElementById('main').innderHTML = errorString
+    } else {
+      var yourVlSpec = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
+        description: '360 feedback output',
+        title: '360 feedback results',
+        width: 500,
+        height: 280,
+        layer: [
+          {
+            data: data.individual,
+            mark: {type: 'point', size: 70, filled: true},
+            encoding: {
+              y: {field: 'result', type: 'quantitative'},
+              x: {field: 'value', type: 'nominal', 'axis': {'labelAngle': -40}},
+              color: {
+                value: '#854a86',
+              }
+            },
+          },
+          {
+            data: data.team,
+            mark: {type: 'point', size: 70, filled: true},
+            encoding: {
+              y: {field: 'result', type: 'quantitative'},
+              x: {field: 'value', type: 'nominal', 'axis': {'labelAngle': -40}},
+              color: {
+                value: 'red',
+              }
+            },
+          },
+          {
+            data: data.individual,
+            mark: 'rule',
+            encoding: {
+              y: {field: 'result', type: 'quantitative', aggregate: 'mean'},
+              size: {value: 2},
+              color: {value: '#377386'}
             }
           },
-        },
-        {
-          data: data.team,
-          mark: {type: 'point', size: 70, filled: true},
-          encoding: {
-            y: {field: 'result', type: 'quantitative'},
-            x: {field: 'value', type: 'nominal', 'axis': {'labelAngle': -40}},
-            color: {
-              value: 'red',
+          {
+            data: data.team,
+            mark: 'rule',
+            encoding: {
+              y: {field: 'result', type: 'quantitative', aggregate: 'mean'},
+              size: {value: 2},
+              color: {value: 'orange'}
             }
-          },
-        },
-        {
-          data: data.individual,
-          mark: 'rule',
-          encoding: {
-            y: {field: 'result', type: 'quantitative', aggregate: 'mean'},
-            size: {value: 2},
-            color: {value: '#377386'}
           }
-        },
-        {
-          data: data.team,
-          mark: 'rule',
-          encoding: {
-            y: {field: 'result', type: 'quantitative', aggregate: 'mean'},
-            size: {value: 2},
-            color: {value: 'orange'}
-          }
-        }
-      ]};
-    addSustain(data.sustain)
-    vegaEmbed('#vis', yourVlSpec)
-    addImprove(data.improve)
+        ]};
+      addSustain(data.sustain)
+      vegaEmbed('#main', yourVlSpec)
+      addImprove(data.improve)
+    }
   }
 
   (function () {
