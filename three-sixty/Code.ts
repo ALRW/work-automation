@@ -73,7 +73,7 @@ const createPayload = (personalData: string[][], teamData: string[][], name: str
   const personCore = coreValues(personWithoutHeaders)
   const personNumeric = valueToNumeric(personCore)
   // TODO implement for multiple rounds of feedback remove final [0]
-  const oneRound = personNumeric[0]
+  const {0: oneRound} = personNumeric
   const personChartValues = dataToChartValues(oneRound)
   const personSustains = sustains(personWithoutHeaders)
   const personImprovements = improvements(personWithoutHeaders)
@@ -103,8 +103,9 @@ const errorPayload = (errorMessage: string): Object => ({
 
 function getFeedbackData (name: string) {
   const master = sheet(getProperty('MASTER_SPREADSHEET_ID'))
-  // TODO enable multiple rounds of feedback and remove final [0]
-  const personMetadata = sheetData(master).filter(datum => datum[0] === name)[0]
+  // TODO enable multiple rounds of feedback and destructuring to get first value in array
+  const {0: personMetadata} = sheetData(master).filter(datum =>
+    datum[0].toLowerCase() === name.toLowerCase())
   if(!personMetadata) {
     return errorPayload(`No entry for ${name}`)
   }
