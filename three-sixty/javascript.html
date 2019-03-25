@@ -49,6 +49,11 @@
     }
   }
 
+  function toggleSearchButtons () {
+    document.getElementById('search').classList.toggle('hidden')
+    document.getElementById('searching').classList.toggle('hidden')
+  }
+
   function displayErrorAndClear (error) {
     var errorString = '<div class="alert alert-danger" role="alert">\
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
@@ -61,11 +66,7 @@
     removeChildren(document.getElementById('improve'))
     removeChildren(document.getElementById('sustain'))
     document.getElementById('main').innerHTML = errorString
-  }
-
-  function toggleSearchButtons () {
-    document.getElementById('search').classList.toggle('hidden')
-    document.getElementById('searching').classList.toggle('hidden')
+    toggleSearchButtons()
   }
 
   function onSuccess(data) {
@@ -73,7 +74,7 @@
       displayErrorAndClear(data.error)
     } else {
       var width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth
-      var chartWidth = width * 0.75
+      var chartWidth = width * 0.6
       var chartHeight = chartWidth * 0.6
       var yourVlSpec = {
         $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
