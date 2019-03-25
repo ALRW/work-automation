@@ -49,26 +49,33 @@
     }
   }
 
-  function onSuccess(data) {
-    if(data.error) {
-      var errorString = '<div class="alert alert-danger" role="alert">\
+  function displayErrorAndClear (error) {
+    var errorString = '<div class="alert alert-danger" role="alert">\
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
         <span aria-hidden="true">&times;</span>\
       </button>\
       <h4 class="alert-heading">Search Error</h4>\
       <hr>\
-      <p>' + data.error + '</p>\
+      <p>' + error + '</p>\
       </div>'
-      removeChildren(document.getElementById('improve'))
-      removeChildren(document.getElementById('sustain'))
-      document.getElementById('main').innerHTML = errorString
+    removeChildren(document.getElementById('improve'))
+    removeChildren(document.getElementById('sustain'))
+    document.getElementById('main').innerHTML = errorString
+  }
+
+  function onSuccess(data) {
+    if(data.error) {
+      displayErrorAndClear(data.error)
     } else {
+      var width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth
+      var chartWidth = width * 0.75
+      var chartHeight = chartWidth * 0.6
       var yourVlSpec = {
         $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
         description: '360 feedback output',
         title: '360 feedback results',
-        width: 500,
-        height: 280,
+        width: chartWidth,
+        height: chartHeight,
         layer: [
           {
             data: data.individual,
