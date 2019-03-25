@@ -63,6 +63,11 @@
     document.getElementById('main').innerHTML = errorString
   }
 
+  function toggleSearchButtons () {
+    document.getElementById('search').classList.toggle('hidden')
+    document.getElementById('searching').classList.toggle('hidden')
+  }
+
   function onSuccess(data) {
     if(data.error) {
       displayErrorAndClear(data.error)
@@ -121,7 +126,14 @@
       addSustain(data.sustain)
       vegaEmbed('#main', yourVlSpec)
       addImprove(data.improve)
+      toggleSearchButtons()
     }
+  }
+
+  function handleSearch () {
+    var name = document.getElementById('searchInput').value
+    toggleSearchButtons()
+    google.script.run.withSuccessHandler(onSuccess).getFeedbackData(name)
   }
 
   (function () {

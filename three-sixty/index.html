@@ -17,7 +17,11 @@
         <a class="navbar-brand" href="#">360 Feedback Analysis</a>
         <form class="form-inline">
           <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Enter a name" aria-label="Search">
-          <button onclick="google.script.run.withSuccessHandler(onSuccess).getFeedbackData(document.getElementById('searchInput').value)" id="search" class="btn btn-outline-light my-2 my-sm-0">Search</button>
+          <button onclick="handleSearch()" id="search" class="btn btn-outline-light my-2 my-sm-0">Search</button>
+          <button id="searching" class="btn btn-outline-light my-2 my-sm-0 hidden" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Searching...
+          </button>
         </form>
       </nav>
       <div class="container">
