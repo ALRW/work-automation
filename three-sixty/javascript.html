@@ -69,6 +69,35 @@
     toggleSearchButtons()
   }
 
+  function renderResultsBase () {
+    var htmlString = '\
+      <div class="card">\
+      <div class="card-header fc">\
+      <nav class="navbar">\
+      <form class="form-inline">\
+      <button class="btn btn-outline-light">Results Chart</button>\
+      <button class="btn btn-outline-light">Sustain</button>\
+      <button class="btn btn-outline-light">Improve</button>\
+      </form>\
+      </nav>\
+      </div>\
+      <div class="card-body">\
+      <div id="results">\
+      <h5 class="card-title">Results Chart</h5>\
+      <div id="chart"></div>\
+      </div>\
+      <div id="sustain" class="hidden">\
+      <h5 class="card-title">Results Chart</h5>\
+      </div>\
+      <div id="improve" class="hidden">\
+      <h5 class="card-title">Results Chart</h5>\
+      </div>\
+      </div>\
+      </div>\
+    '
+    document.getElementById('main').innerHTML = htmlString
+  }
+
   function onSuccess(data) {
     if(data.error) {
       displayErrorAndClear(data.error)
@@ -124,9 +153,10 @@
             }
           }
         ]};
-      addSustain(data.sustain)
-      vegaEmbed('#main', yourVlSpec)
-      addImprove(data.improve)
+      //addSustain(data.sustain)
+      renderResultsBase()
+      vegaEmbed('#chart', yourVlSpec)
+      //addImprove(data.improve)
       toggleSearchButtons()
     }
   }
