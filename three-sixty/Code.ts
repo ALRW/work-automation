@@ -26,7 +26,7 @@ const getProperty = (propertyName: string): string =>
 const sheet = (id: string) =>
   SpreadsheetApp
     .openById(id)
-    .getSheetByName("Sheet1")
+    .getSheetByName("Form responses 1")
 
 const sheetData = (sheet): string[][] =>
   sheet
