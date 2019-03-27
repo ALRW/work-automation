@@ -73,17 +73,18 @@
     var htmlString = '\
       <div class="card">\
       <div class="card-header fc">\
-      <nav class="navbar">\
+      <nav class="navbar justify-content-end">\
       <form class="form-inline">\
-      <button class="btn btn-outline-light">Results Chart</button>\
-      <button class="btn btn-outline-light">Sustain</button>\
-      <button class="btn btn-outline-light">Improve</button>\
+      <div class="btn-group">\
+      <button class="btn btn-outline-light mx-2">Results Chart</button>\
+      <button class="btn btn-outline-light mx-2">Sustain</button>\
+      <button class="btn btn-outline-light mx-2">Improve</button>\
+      </div>\
       </form>\
       </nav>\
       </div>\
       <div class="card-body">\
-      <div id="results">\
-      <h5 class="card-title">Results Chart</h5>\
+      <div id="results" class="text-center">\
       <div id="chart"></div>\
       </div>\
       <div id="sustain" class="hidden">\
