@@ -24,20 +24,20 @@
   }
 
   function addSustain(data) {
-    var team = '<ul class="list-group">'
+    var team = '<ul class="list-group list-group-flush">'
       + createListItems('The team wants you to sustain', data.slice(1))
       + '</ul>'
-    var you = '<ul class="list-group">'
+    var you = '<ul class="list-group list-group-flush">'
       + createListItems('You want to sustain', data.slice(0, 1))
       + '</ul>'
     document.getElementById('sustain').innerHTML = you + team
   }
 
   function addImprove(data) {
-    var team = '<ul class="list-group">'
+    var team = '<ul class="list-group list-group-flush">'
       + createListItems('The team wants you to improve', data.slice(1))
       + '</ul>'
-    var you = '<ul class="list-group">'
+    var you = '<ul class="list-group list-group-flush">'
       + createListItems('You want to improve', data.slice(0, 1))
       + '</ul>'
     document.getElementById('improve').innerHTML = you + team
@@ -69,30 +69,37 @@
     toggleSearchButtons()
   }
 
+  function handleTabChange(id){
+    var ids = ['results', 'sustain', 'improve']
+    var toHide = ids.filter(function(i){
+      return i !== id
+    })
+    toHide.forEach(function(i){
+      document.getElementById(i).classList.add('hidden')
+      document.getElementById(i + "-btn").classList.remove('active')
+    })
+    document.getElementById(id).classList.remove('hidden')
+    document.getElementById(id + "-btn").classList.add('active')
+  }
+
   function renderResultsBase () {
     var htmlString = '\
-      <div class="card">\
+      <div class="card mb-2">\
       <div class="card-header fc">\
       <nav class="navbar justify-content-end">\
       <form class="form-inline">\
-      <div class="btn-group">\
-      <button class="btn btn-outline-light mx-2">Results Chart</button>\
-      <button class="btn btn-outline-light mx-2">Sustain</button>\
-      <button class="btn btn-outline-light mx-2">Improve</button>\
-      </div>\
+      <button id="results-btn" class="btn btn-outline-light mx-2 active" onclick="handleTabChange(\'results\')">Results Chart</button>\
+      <button id="sustain-btn" class="btn btn-outline-light mx-2" onclick="handleTabChange(\'sustain\')">Sustain</button>\
+      <button id="improve-btn" class="btn btn-outline-light mx-2" onclick="handleTabChange(\'improve\')">Improve</button>\
       </form>\
       </nav>\
       </div>\
-      <div class="card-body">\
       <div id="results" class="text-center">\
       <div id="chart"></div>\
       </div>\
       <div id="sustain" class="hidden">\
-      <h5 class="card-title">Results Chart</h5>\
       </div>\
       <div id="improve" class="hidden">\
-      <h5 class="card-title">Results Chart</h5>\
-      </div>\
       </div>\
       </div>\
     '
@@ -154,10 +161,11 @@
             }
           }
         ]};
-      //addSustain(data.sustain)
       renderResultsBase()
       vegaEmbed('#chart', yourVlSpec)
-      //addImprove(data.improve)
+      addSustain(data.sustain)
+      addImprove(data.improve)
+      preventFormSubmit()
       toggleSearchButtons()
     }
   }
