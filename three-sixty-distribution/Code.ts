@@ -53,6 +53,16 @@ function sendoutTeamFeedback(teamName): void {
   })
 }
 
+function doGet() {
+  return HtmlService.createTemplateFromFile('index')
+    .evaluate();
+}
+
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename)
+    .getContent();
+}
+
 function logger() {
   Logger.log('hello')
 }

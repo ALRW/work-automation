@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Three Sixty</title>
+    <base target="_top">
+    <?!= include('stylesheet'); ?>
+  </head>
+  <body>
+    <div id="loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div id="app" class="hidden">
+      <nav class="navbar navbar-dark fc">
+        <h4 class="navbar-brand" href="#">360 Feedback Distribution</h4>
+      </nav>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <div id="main">
+              <div class="card">
+                <div class="card-header fc">Team Distribution</div>
+                <div class="card-body">
+                  <p>Below you will see a number of cards each containing the details of a team: their name and members.</p>
+                  <p>If you wish to initiate a round of 360 feedback simple click the: 'Initiate feedback for [teamname]'</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?!= include('javascript'); ?>
+  </body>
+</html>
+
