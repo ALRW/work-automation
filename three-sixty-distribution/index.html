@@ -19,15 +19,25 @@
       <div class="container">
         <div class="row">
           <div class="col-sm">
-            <div id="main">
-              <div class="card">
-                <div class="card-header fc">Team Distribution</div>
-                <div class="card-body">
-                  <p>Below you will see a number of cards each containing the details of a team: their name and members.</p>
-                  <p>If you wish to initiate a round of 360 feedback simple click the: 'Initiate feedback for [teamname]'</p>
-                </div>
+            <div class="card my-2">
+              <div class="card-header fc">Team Distribution</div>
+              <div class="card-body">
+                <p>Below you will see a number of cards each containing the details of a team: their name and members.</p>
+                <p>If you wish to initiate a round of 360 feedback simple click the: 'Initiate feedback for [teamname]'</p>
               </div>
             </div>
+            <? for(var team in teams){
+                   if (teams.hasOwnProperty(team)){
+                   var teamData = teams[team] ?>
+                   <div class="card my-2">
+                     <div class="card-header fc"><?= team ?></div>
+                     <ul class="list-group list-group-flush">
+                       <? teamData.forEach(function(person){ ?>
+                       <li class="list-group-item"><?= person[0] ?></li>
+                          <?})?>
+                     </ul>
+                   </div>
+                   <? } } ?>
           </div>
         </div>
       </div>
