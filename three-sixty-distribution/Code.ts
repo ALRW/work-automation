@@ -11,7 +11,7 @@ const sheetData = (sheet): string[][] =>
     .getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn())
     .getValues()
 
-const teamDetails = () => {
+const getAllPeople = () => {
   const master = sheet(getProperty('MASTER_SPREADSHEET_ID'))
   const teamData = sheetData(master).slice(1).map(datum => {
     datum.splice(1, 2)
@@ -32,15 +32,25 @@ const sendEmail = (email, subject, body): void =>
     htmlBody: body
   })
 
-function sendoutTeamFeedback(): void {
-  teamDetails()
+const groupByTeam = data => data.reduce((teams, personData) => {
+  const {6: teamName} = personData
+  teamName in teams ? teams[teamName] = [...teams[teamName], personData] : teams[teamName] = [personData]
+  return teams
+}, {})
+
+const teams = groupByTeam(getAllPeople())
+
+const teamDetails = teamName => teams[teamName] || []
+
+//TODO handle empty teamDetails array
+function sendoutTeamFeedback(teamName): void {
+  teamDetails(teamName)
   .forEach(([name, email, personalFormUrl, teamFormUrl], i, original) => {
     const restOfTeam = original.filter(([pname]) => pname !== name)
     const body = emailBody(name, personalFormUrl, restOfTeam)
     const subject = '360 Feedback'
     sendEmail(email, subject, body)
   })
-
 }
 
 function logger() {
