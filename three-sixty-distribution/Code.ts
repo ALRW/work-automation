@@ -33,7 +33,7 @@ const sendEmail = (email, subject, body): void =>
   })
 
 const groupByTeam = data => data.reduce((teams, personData) => {
-  const {6: teamName} = personData
+  const {4: teamName} = personData
   teamName in teams ? teams[teamName] = [...teams[teamName], personData] : teams[teamName] = [personData]
   return teams
 }, {})
