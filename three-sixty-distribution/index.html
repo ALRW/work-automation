@@ -23,14 +23,16 @@
               <div class="card-header fc">Team Distribution</div>
               <div class="card-body">
                 <p>Below you will see a number of cards each containing the details of a team: their name and members.</p>
-                <p>If you wish to initiate a round of 360 feedback simple click the: 'Initiate feedback for [teamname]'</p>
+                <p>If you wish to initiate a round of 360 feedback click the: 'Initiate feedback' for the chosen team</p>
               </div>
             </div>
             <? for(var team in teams){
                    if (teams.hasOwnProperty(team)){
                    var teamData = teams[team] ?>
                    <div class="card my-2">
-                     <div class="card-header fc"><?= team ?></div>
+                     <div class="card-header fc"><?= team ?>
+                       <button class="btn btn-outline-light mx-2 float-right" onclick="google.script.run.sendoutTeamFeedback(<?= team ?>)">Initiate Feedback</button>
+                     </div>
                      <ul class="list-group list-group-flush">
                        <? teamData.forEach(function(person){ ?>
                        <li class="list-group-item"><?= person[0] ?></li>
