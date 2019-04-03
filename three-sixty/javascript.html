@@ -95,7 +95,7 @@
       </nav>\
       </div>\
       <div id="results" class="text-center">\
-      <div id="chart"></div>\
+      <div id="chart" class="my-5"></div>\
       </div>\
       <div id="sustain" class="hidden">\
       </div>\
@@ -111,12 +111,12 @@
       displayErrorAndClear(data.error)
     } else {
       var width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth
-      var chartWidth = width * 0.6
+      var chartWidth = width * 0.5
       var chartHeight = chartWidth * 0.6
       var yourVlSpec = {
         $schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
         description: '360 feedback output',
-        title: '360 feedback results',
+        title: '360 Feedback Results',
         width: chartWidth,
         height: chartHeight,
         layer: [
