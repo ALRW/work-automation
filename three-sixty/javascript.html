@@ -121,24 +121,65 @@
         height: chartHeight,
         layer: [
           {
+            mark: {
+              type: "rule"
+            },
+            data: {
+              values: [
+                {
+                  color: "Where you see yourself"
+                }
+              ]
+            },
+            encoding: {
+              color: {
+                field: "color",
+                sort: false,
+                type: "nominal",
+                legend: {
+                  title: "Legend"
+                }
+              }
+            }
+          },
+          {
+            mark: {
+              type: "rule"
+            },
+            data: {
+              values: [
+                {
+                  color: "Where the team sees you"
+                }
+              ]
+            },
+            encoding: {
+              color: {
+                field: "color",
+                sort: false,
+                type: "nominal",
+                legend: {
+                  title: ""
+                }
+              }
+            }
+          },
+          {
             data: data.individual,
-            mark: {type: 'point', size: 70, filled: true},
+            mark: {type: 'point', size: 150},
             encoding: {
               y: {field: 'result', type: 'quantitative'},
-              x: {field: 'value', type: 'nominal', 'axis': {'labelAngle': -40}},
-              color: {
-                value: '#854a86',
-              }
+              x: {field: 'value', type: 'nominal', 'axis': {'labelAngle': -40}}
             },
           },
           {
             data: data.team,
-            mark: {type: 'point', size: 70, filled: true},
+            mark: {type: 'point', size: 150},
             encoding: {
               y: {field: 'result', type: 'quantitative'},
               x: {field: 'value', type: 'nominal', 'axis': {'labelAngle': -40}},
               color: {
-                value: 'red',
+                value: 'orange',
               }
             },
           },
@@ -160,7 +201,8 @@
               color: {value: 'orange'}
             }
           }
-        ]};
+        ]
+      };
       renderResultsBase()
       vegaEmbed('#chart', yourVlSpec)
       addSustain(data.sustain)
