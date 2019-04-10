@@ -102,17 +102,18 @@ const errorPayload = (errorMessage: string): Object => ({
 })
 
 function getFeedbackData (name: string) {
-  const master = sheet(getProperty('MASTER_SPREADSHEET_ID'))
-  // TODO enable multiple rounds of feedback and destructuring to get first value in array
-  const {0: personMetadata} = sheetData(master).filter(datum =>
-    datum[0].toLowerCase() === name.toLowerCase())
-  if(!personMetadata) {
-    return errorPayload(`No entry for ${name}`)
+  try {
+    const master = sheet(getProperty('MASTER_SPREADSHEET_ID'))
+    // TODO enable multiple rounds of feedback and destructuring to get first value in array
+    const {0: personMetadata} = sheetData(master).filter(datum =>
+      datum[0].toLowerCase() === name.toLowerCase())
+    const personalResults = sheetData(sheet(personMetadata[1]))
+    const teamResults = sheetData(sheet(personMetadata[2]))
+    const payload = createPayload(personalResults, teamResults, name)
+    return payload
+  } catch (error) {
+    return errorPayload(`Error: could not find any data for ${name}`)
   }
-  const personalResults = sheetData(sheet(personMetadata[1]))
-  const teamResults = sheetData(sheet(personMetadata[2]))
-  const payload = createPayload(personalResults, teamResults, name)
-  return payload
 }
 
 function doGet() {
