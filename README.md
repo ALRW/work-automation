@@ -17,6 +17,7 @@ In order to run properly is required the following Script Properties to be speci
  - `SPREADSHEET_ID` The id of the google sheet holding all the team members names
  - `SLACK_CHANNEL_NAME` The name of the channel to publish message to
  - `CALENDAR_NAME` The name of the team calendar. Used to try and work out when team members are out of office
+ - `STANDUP_EVENT_NAME` The name of the standup event in your calendar. Used to ensure that no message is not sent on a day when there is no standup
 
 The script can be setup programattically by running `createTriggers`. Or individual triggers can be created as needed using the app scripts GUI.
 

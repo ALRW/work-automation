@@ -34,7 +34,7 @@ const peopleInWork = (): string[] =>
   allPeople().filter(p => absentPeople().indexOf(p) === -1)
 
 const isStandup = (): boolean =>
-  calendarEvents(["Electrodogs - BarterBears Standup"]).length > 0
+  calendarEvents([getProperty("STANDUP_EVENT_NAME")]).length > 0
 
 const tomorrowAsString = (): string =>
   ["Sunday",
@@ -60,16 +60,10 @@ const sendMessage = (message): void => {
   UrlFetchApp.fetch(url, options)
 }
 
-// function standup (): void {
-//   const person: string = selectAtRandom(peopleInWork())
-//   const message: string = `The master of ceremonies for ${tomorrowAsString()}'s standup is: @${person}`
-//   isStandup() && sendMessage(message)
-// }
-
-function update (): void {
+function message (): void {
   const person: string = selectAtRandom(peopleInWork())
-  const message: string = `@${person}, congratulations! You have been _randomly_ selected to give a quick update in #cc-engineering on the Barter Bears' activities today.`
-  sendMessage(message)
+  const message: string = `@${person}, congratulations you have been selected to run ${tomorrowAsString()}'s standup`
+  isStandup() && sendMessage(message)
 }
 
 function createTriggers (): void {
@@ -78,7 +72,7 @@ function createTriggers (): void {
     ScriptApp.WeekDay.WEDNESDAY,
     ScriptApp.WeekDay.THURSDAY,
     ScriptApp.WeekDay.FRIDAY]
-  days.forEach(day => ScriptApp.newTrigger("sendMessage")
+  days.forEach(day => ScriptApp.newTrigger("message")
     .timeBased().onWeekDay(day)
     .atHour(10).create())
 }
